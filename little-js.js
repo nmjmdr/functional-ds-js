@@ -58,14 +58,14 @@ const isMember = (a, l) => {
             (eq(a, car(l)) || isMember(a, cdr(l)))
 }
 
-const cond = (condition, fx, fy) => {
-    return condition ? fx() : fy()
+const fi = (fcond, fx, fy) => {
+    return fcond() === true ? fx() : fy()
 }
 
 
 const descendIsMember = (a, l) => {
-    return cond(
-        isNull(l), 
+    return fi(
+        ()=>isNull(l), 
         ()=>false,
         ()=>{
             const x = car(l)
