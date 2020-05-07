@@ -58,24 +58,30 @@ const isMember = (a, l) => {
             (eq(a, car(l)) || isMember(a, cdr(l)))
 }
 
+const cond = (condition, fx, fy) => {
+    return condition ? fx() : fy()
+}
+
 
 const descendIsMember = (a, l) => {
-    if(isNull(l))
-    {
-        return false
-    }
-    const x = car(l)
-    const xs = cdr(l)
+    return cond(
+        isNull(l), 
+        ()=>false,
+        ()=>{
+            const x = car(l)
+            const xs = cdr(l)
 
-    return eq(a, x) ? 
-                    true
-                    :
-                    (
-                      isAtom(x) ?
-                        descendIsMember(a, cdr(l)) 
-                        :
-                        descendIsMember(a, x) || descendIsMember(a, cdr(l))
-                    )
+            return eq(a, x) ? 
+                            true
+                            :
+                            (
+                            isAtom(x) ?
+                                descendIsMember(a, cdr(l)) 
+                                :
+                                descendIsMember(a, x) || descendIsMember(a, cdr(l))
+                            )
+        }
+    )
 }
 
 
