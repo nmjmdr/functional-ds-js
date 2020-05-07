@@ -1,4 +1,11 @@
-const Empty = Symbol('Empty')
+
+
+const Maybe = (x) => {
+  return {
+    isNothing: () => x == undefined || x ==  null,
+    map: (f) =>  isNothing() ? Maybe(x) : f(x)
+  }
+}
 
 const cons = (x,list=Empty) =>{
   return {
@@ -6,8 +13,6 @@ const cons = (x,list=Empty) =>{
     list
   }
 }
-
-const l = cons(3,(cons(2,cons(1))))
 
 const head = (l) => {
   if(l==Empty) {
@@ -46,8 +51,10 @@ const iterator = (l) => {
   }
 }
 
-const iter = iterator(l)
-while(iter.next()) {
-  console.log(iter.value())
-}
 
+module.exports = {
+  cons,
+  head,
+  tail,
+  iterator,
+}
