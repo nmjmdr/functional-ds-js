@@ -84,4 +84,27 @@ const descendIsMember = (a, l) => {
     )
 }
 
+const atLeastNTimes = (a, n, l) => {
+    return n == 0 ? 
+        true :
+        (
+            isNull(l) ? 
+                false :
+                eq(a, car(l)) ? atLeastNTimes(a, n-1, cdr(l)) : atLeastNTimes(a, n, cdr(l))
+        )
+}
+
+const occursNTimes = (a, n, l) => {
+   const count = (x, s) => {
+       return isNull(s) ?
+            x :
+            eq(a, car(s)) ? count(x+1, cdr(s)) : count(x, cdr(s)) 
+
+   }
+   return count(0, l) == n
+}
+
+
+console.log(atLeastNTimes('x', 3, ['a','x','x', 'y']))
+
 
