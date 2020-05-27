@@ -58,30 +58,25 @@ const isMember = (a, l) => {
             (eq(a, car(l)) || isMember(a, cdr(l)))
 }
 
-const fi = (fcond, fx, fy) => {
+const cond = (fcond, fx, fy) => {
     return fcond() === true ? fx() : fy()
 }
 
 
 const descendIsMember = (a, l) => {
-    return fi(
-        ()=>isNull(l), 
-        ()=>false,
-        ()=>{
-            const x = car(l)
-            const xs = cdr(l)
-
-            return eq(a, x) ? 
-                            true
+    return isNull(l) ?
+             false :
+             (
+                eq(a, car(l)) ? 
+                        true
+                        :
+                        (
+                        isAtom(car(l)) ?
+                            descendIsMember(a, cdr(l)) 
                             :
-                            (
-                            isAtom(x) ?
-                                descendIsMember(a, cdr(l)) 
-                                :
-                                descendIsMember(a, x) || descendIsMember(a, cdr(l))
-                            )
-        }
-    )
+                            descendIsMember(a, car(l)) || descendIsMember(a, cdr(l))
+                        ) 
+             )
 }
 
 const atLeastNTimes = (a, n, l) => {
@@ -105,6 +100,6 @@ const occursNTimes = (a, n, l) => {
 }
 
 
-console.log(atLeastNTimes('x', 3, ['a','x','x', 'y']))
+console.log(descendIsMember('x',['a',['b',['c',['d','x'],'x', 'y']]]))
 
 
