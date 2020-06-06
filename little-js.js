@@ -100,6 +100,29 @@ const occursNTimes = (a, n, l) => {
 }
 
 
-console.log(descendIsMember('x',['a',['b',['c',['d','x'],'x', 'y']]]))
+const remove = (a, l) => {
+    return isNull(l) ? 
+             l :
+             (
+                 eq(a, car(l)) ? 
+                      cdr(l) :
+                      cons(car(l), remove(a, cdr(l)))
+             )
+}
+
+const removex = (a, l) => {
+    if(isNull(l)){
+        return l
+    }
+    const [x,...xs] = l
+    if(eq(x,a)) {
+        return xs
+    }
+    return [x,...remove(a,xs)]
+            
+}
+
+
+console.log(removex('1',['2','3','1','4']))
 
 
